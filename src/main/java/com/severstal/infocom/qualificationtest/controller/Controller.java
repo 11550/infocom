@@ -3,9 +3,11 @@ package com.severstal.infocom.qualificationtest.controller;
 import com.severstal.infocom.qualificationtest.model.*;
 import com.severstal.infocom.qualificationtest.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -17,8 +19,8 @@ public class Controller {
     private final IFruitService<Pear> pearService;
     private final SupplierService supplierService;
     private final GoodsService goodsService;
-    private final InvoicePositionService orderLineService;
-    private final InvoiceService orderService;
+    private final InvoicePositionService invoicePositionService;
+    private final InvoiceService invoiceService;
 
     @GetMapping("/period/{id}")
     public ResponseEntity<Period> getPeriod(@PathVariable(name = "id") Period period) {
@@ -70,31 +72,39 @@ public class Controller {
         return ResponseEntity.ok(goodsService.getAll());
     }
 
-    @GetMapping("/order-line/{id}")
-    public ResponseEntity<InvoicePosition> getOrderLine(@PathVariable(name = "id") InvoicePosition invoicePosition) {
+    @GetMapping("/invoice-position/{id}")
+    public ResponseEntity<InvoicePosition> getInvoicePosition(@PathVariable(name = "id") InvoicePosition invoicePosition) {
         return ResponseEntity.ok(invoicePosition);
     }
 
-    @GetMapping("/order-line/all")
-    public ResponseEntity<List<InvoicePosition>> getAllOrderLines() {
-        return ResponseEntity.ok(orderLineService.getAll());
+    @GetMapping("/invoice-position/all")
+    public ResponseEntity<List<InvoicePosition>> getAllInvoicePositions() {
+        return ResponseEntity.ok(invoicePositionService.getAll());
+    }
+
+    @GetMapping("/invoice-position/all")
+    public ResponseEntity<List<InvoicePosition>> getAllInvoicePositions(
+            @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date from,
+            @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date to) {
+
+        return ResponseEntity.ok(invoicePositionService.getAllByDateBetween(from, to));
     }
 
     @GetMapping("/order/{id}")
-    public ResponseEntity<Order> getOrder(@PathVariable(name = "id") Order order) {
-        return ResponseEntity.ok(order);
+    public ResponseEntity<Invoice> getOrder(@PathVariable(name = "id") Invoice invoice) {
+        return ResponseEntity.ok(invoice);
     }
 
     @GetMapping("/order/all")
-    public ResponseEntity<List<Order>> getAllOrders() {
-        return ResponseEntity.ok(orderService.getAll());
+    public ResponseEntity<List<Invoice>> getAllOrders() {
+        return ResponseEntity.ok(invoiceService.getAll());
     }
 
 
 
     @PostMapping("/period")
     public ResponseEntity<Period> createPeriod(@RequestBody Period period) {
-        return ResponseEntity.ok(period);
+        return ResponseEntity.ok(periodService.create(period));
     }
 
     @PostMapping("/apple")
@@ -104,26 +114,26 @@ public class Controller {
 
     @PostMapping("/pear")
     public ResponseEntity<Pear> createPear(@RequestBody Pear pear) {
-        return ResponseEntity.ok(pear);
+        return ResponseEntity.ok(pearService.create(pear));
     }
 
     @PostMapping("/supplier")
     public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier) {
-        return ResponseEntity.ok(supplier);
+        return ResponseEntity.ok(supplierService.create(supplier));
     }
 
     @PostMapping("/goods")
-    public ResponseEntity<Goods> createGoods(@RequestBody Goods priceList) {
-        return ResponseEntity.ok(priceList);
+    public ResponseEntity<Goods> createGoods(@RequestBody Goods goods) {
+        return ResponseEntity.ok(goodsService.create(goods));
     }
 
-    @PostMapping("/order-line")
-    public ResponseEntity<InvoicePosition> createOrderLine(@RequestBody InvoicePosition invoicePosition) {
-        return ResponseEntity.ok(invoicePosition);
+    @PostMapping("/invoice_position")
+    public ResponseEntity<InvoicePosition> createInvoicePosition(@RequestBody InvoicePosition invoicePosition) {
+        return ResponseEntity.ok(invoicePositionService.create(invoicePosition));
     }
 
-    @PostMapping("/order")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        return ResponseEntity.ok(order);
+    @PostMapping("/invoice")
+    public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
+        return ResponseEntity.ok(invoiceService.create(invoice));
     }
 }

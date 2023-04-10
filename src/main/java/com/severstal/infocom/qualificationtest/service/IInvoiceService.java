@@ -1,6 +1,6 @@
 package com.severstal.infocom.qualificationtest.service;
 
-import com.severstal.infocom.qualificationtest.model.Order;
+import com.severstal.infocom.qualificationtest.model.Invoice;
 
-public interface IInvoiceService extends ICrudService<Order> {
+public interface IInvoiceService extends ICrudService<Invoice> {
 }

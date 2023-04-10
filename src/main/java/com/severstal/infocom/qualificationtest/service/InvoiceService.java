@@ -1,6 +1,6 @@
 package com.severstal.infocom.qualificationtest.service;
 
-import com.severstal.infocom.qualificationtest.model.Order;
+import com.severstal.infocom.qualificationtest.model.Invoice;
 import com.severstal.infocom.qualificationtest.repository.InvoiceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,34 +15,34 @@ public class InvoiceService implements IInvoiceService {
 
     @Override
     @Transactional
-    public Order create(Order order) {
-        return invoiceRepository.save(order);
+    public Invoice create(Invoice invoice) {
+        return invoiceRepository.save(invoice);
     }
 
     @Override
-    public List<Order> create(List<Order> orders) {
-        return invoiceRepository.saveAll(orders);
+    public List<Invoice> create(List<Invoice> invoices) {
+        return invoiceRepository.saveAll(invoices);
     }
 
     @Override
-    public Order get(Long id) {
+    public Invoice get(Long id) {
         return invoiceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No entity found with id " + id));
     }
 
     @Override
-    public List<Order> getAll() {
+    public List<Invoice> getAll() {
         return invoiceRepository.findAll();
     }
 
     @Override
-    public Order update(Order order) {
-        return create(order);
+    public Invoice update(Invoice invoice) {
+        return create(invoice);
     }
 
     @Override
-    public void delete(Order order) {
-        invoiceRepository.delete(order);
+    public void delete(Invoice invoice) {
+        invoiceRepository.delete(invoice);
     }
 
     @Override

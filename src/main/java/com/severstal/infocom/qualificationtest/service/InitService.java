@@ -47,7 +47,7 @@ public class InitService {
                 })
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
-        Order order = orderService.create(new Order(invoicePositions));
-        System.out.println(order);
+        Invoice invoice = orderService.create(new Invoice(invoicePositions));
+        System.out.println(invoice);
     }
 }

@@ -4,27 +4,37 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "invoice")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Order {
+public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // по логике - в одной накладной должны быть позиции от одного поставщика.. Как это реализовать красиво
     @OneToMany
     private Set<InvoicePosition> invoicePositions;
 
+    // дата-время создания заказа должны влиять на стоимость конкретных товаров в конкретном периоде
+    @CreationTimestamp
+    private Date orderDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Supplier supplier;
+
     //<editor-fold desc="constructors" defaultstate="collapsed">
-    public Order(Set<InvoicePosition> invoicePositions) {
+    public Invoice(Set<InvoicePosition> invoicePositions) {
         this.invoicePositions = invoicePositions;
     }
     //</editor-fold>
@@ -35,8 +45,8 @@ public class Order {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(invoicePositions, order.invoicePositions);
+        Invoice invoice = (Invoice) o;
+        return Objects.equals(id, invoice.id) && Objects.equals(invoicePositions, invoice.invoicePositions);
     }
 
     @Override

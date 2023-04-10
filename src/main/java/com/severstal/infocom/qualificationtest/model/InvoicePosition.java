@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "order_line")
+@Table(name = "invoice_position")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -20,7 +20,6 @@ public class InvoicePosition {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "goods_id", referencedColumnName = "id")
     private Goods goods;
 
     private Double weight;
