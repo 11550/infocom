@@ -3,24 +3,24 @@ package com.severstal.infocom.qualificationtest.controller;
 import com.severstal.infocom.qualificationtest.model.*;
 import com.severstal.infocom.qualificationtest.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class Controller {
-    private final PeriodService periodService;
+    private final IPeriodService periodService;
     private final IFruitService<Apple> appleService;
     private final IFruitService<Pear> pearService;
-    private final SupplierService supplierService;
-    private final GoodsService goodsService;
-    private final InvoicePositionService invoicePositionService;
-    private final InvoiceService invoiceService;
+    private final ISupplierService supplierService;
+    private final IGoodsService goodsService;
+    private final IInvoicePositionService invoicePositionService;
+    private final IInvoiceService invoiceService;
+
+
 
     @GetMapping("/period/{id}")
     public ResponseEntity<Period> getPeriod(@PathVariable(name = "id") Period period) {
@@ -91,7 +91,6 @@ public class Controller {
     public ResponseEntity<List<Invoice>> getAllOrders() {
         return ResponseEntity.ok(invoiceService.getAll());
     }
-
 
 
     @PostMapping("/period")

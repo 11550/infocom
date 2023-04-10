@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ReportService {
-    private final PeriodService periodService;
+    private final IPeriodService periodService;
     private final IFruitService<Apple> appleService;
     private final IFruitService<Pear> pearService;
-    private final SupplierService supplierService;
-    private final GoodsService goodsService;
-    private final InvoicePositionService orderLineService;
-    private final InvoiceService orderService;
+    private final ISupplierService supplierService;
+    private final IGoodsService goodsService;
+    private final IInvoicePositionService invoicePositionService;
+    private final IInvoiceService invoiceService;
 
     //Имеется 3 поставщика, каждый из поставщиков может поставлять 2 вида груш и 2 вида яблок.
     // Поставщики заранее сообщают свои цены на виды продукции на определенный период поставок.

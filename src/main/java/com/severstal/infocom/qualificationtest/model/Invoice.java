@@ -30,6 +30,8 @@ public class Invoice {
     @CreationTimestamp
     private Date orderDate;
 
+    private Date acceptDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Supplier supplier;
 

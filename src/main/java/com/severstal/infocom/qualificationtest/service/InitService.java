@@ -13,19 +13,19 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 public class InitService {
+    private final IPeriodService periodService;
     private final IFruitService<Apple> appleService;
     private final IFruitService<Pear> pearService;
-    private final IGoodsService goodsService;
-    private final IInvoicePositionService orderLineService;
-    private final IInvoiceService orderService;
-    private final IPeriodService periodService;
     private final ISupplierService supplierService;
+    private final IGoodsService goodsService;
+    private final IInvoicePositionService invoicePositionService;
+    private final IInvoiceService invoiceService;
 
     @PostConstruct
     @Transactional
     public void init() {
         Period period = periodService.create(
-                new Period(new Date(), new Date(new Date().getTime() + 1000 * 3600 * 24 * 7 * 4L))
+                new Period(new Date(), new Date(new Date().getTime() + 3_600_000 * 24 * 7 * 4L))
         );
         init(period, "first");
         init(period, "second");
@@ -43,11 +43,11 @@ public class InitService {
                 .flatMap(Collection::stream)
                 .map(fruit -> {
                     Goods goods = goodsService.create(new Goods(supplier, period, fruit, random.nextDouble() * 100));
-                    return orderLineService.create(new InvoicePosition(goods, random.nextDouble() * 10));
+                    return invoicePositionService.create(new InvoicePosition(goods, random.nextDouble() * 10));
                 })
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
-        Invoice invoice = orderService.create(new Invoice(invoicePositions));
+        Invoice invoice = invoiceService.create(new Invoice(invoicePositions));
         System.out.println(invoice);
     }
 }

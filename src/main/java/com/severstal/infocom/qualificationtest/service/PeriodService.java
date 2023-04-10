@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +16,7 @@ public class PeriodService implements IPeriodService {
 
     @Override
     public Period create(Period period) {
-        if (isIntersects(getCurrent(), period)) {
+        if (isOverlapping(period)) {
             throw new RuntimeException("Period intersects");
         }
         return periodRepository.save(period);
@@ -31,14 +32,13 @@ public class PeriodService implements IPeriodService {
                 .orElseThrow(() -> new RuntimeException("No entity found with id " + id));
     }
 
-    public Period getCurrent() {
+    public Optional<Period> getCurrent() {
         Date date = new Date();
         return getPeriodByDate(date);
     }
 
-    public Period getPeriodByDate(Date date) {
-        return periodRepository.findByDate(date)
-                .orElseThrow(() -> new RuntimeException("No entity found! date " + date));
+    public Optional<Period> getPeriodByDate(Date date) {
+        return periodRepository.findByDate(date);
     }
 
     @Override
@@ -71,6 +71,11 @@ public class PeriodService implements IPeriodService {
         isCorrect(another);
         return period.getStart().after(another.getStart()) && period.getStart().before(another.getEnd())
                 || period.getEnd().after(another.getStart()) && period.getEnd().before(another.getEnd());
+    }
+
+    private boolean isOverlapping(Period period) {
+        isCorrect(period);
+        return periodRepository.checkOverlapping(period.getStart(), period.getEnd()).intValue() == 1;
     }
 
     private void isCorrect(Period period) {
