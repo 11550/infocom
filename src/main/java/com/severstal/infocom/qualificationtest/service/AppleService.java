@@ -5,6 +5,7 @@ import com.severstal.infocom.qualificationtest.repository.AppleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -15,6 +16,12 @@ public class AppleService implements IFruitService<Apple> {
     @Override
     public Apple create(Apple apple) {
         return appleRepository.save(apple);
+    }
+
+    @Override
+    @Transactional
+    public List<Apple> create(List<Apple> apples) {
+        return appleRepository.saveAll(apples);
     }
 
     @Override

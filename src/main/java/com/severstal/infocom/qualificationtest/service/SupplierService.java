@@ -18,6 +18,11 @@ public class SupplierService implements ISupplierService {
     }
 
     @Override
+    public List<Supplier> create(List<Supplier> suppliers) {
+        return supplierRepository.saveAll(suppliers);
+    }
+
+    @Override
     public Supplier get(Long id) {
         return supplierRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No entity found with id " + id));

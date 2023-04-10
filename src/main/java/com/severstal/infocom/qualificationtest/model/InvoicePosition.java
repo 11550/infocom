@@ -14,22 +14,23 @@ import java.util.Objects;
 @AllArgsConstructor
 @Getter
 @Setter
-public class OrderLine {
+public class InvoicePosition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-//    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "goods_id", referencedColumnName = "id")
     private Goods goods;
 
     private Double weight;
 
-    public OrderLine(Goods goods, Double weight) {
+    //<editor-fold desc="constructors" defaultstate="collapsed">
+    public InvoicePosition(Goods goods, Double weight) {
         this.goods = goods;
         this.weight = weight;
     }
+    //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="equals, hashcode, toString">
 
@@ -37,7 +38,7 @@ public class OrderLine {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderLine order = (OrderLine) o;
+        InvoicePosition order = (InvoicePosition) o;
         return Objects.equals(id, order.id) && Objects.equals(goods, order.goods) && Objects.equals(weight, order.weight);
     }
 

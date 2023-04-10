@@ -21,13 +21,13 @@ public class Order {
     private Long id;
 
     @OneToMany
-//    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @JoinColumn(name = "order_line_id", referencedColumnName = "id")
-    private Set<OrderLine> orderLines;
+    private Set<InvoicePosition> invoicePositions;
 
-    public Order(Set<OrderLine> orderLines) {
-        this.orderLines = orderLines;
+    //<editor-fold desc="constructors" defaultstate="collapsed">
+    public Order(Set<InvoicePosition> invoicePositions) {
+        this.invoicePositions = invoicePositions;
     }
+    //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="equals, hashcode, toString">
 
@@ -36,19 +36,19 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(orderLines, order.orderLines);
+        return Objects.equals(id, order.id) && Objects.equals(invoicePositions, order.invoicePositions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, orderLines);
+        return Objects.hash(id, invoicePositions);
     }
 
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", orderLines=" + orderLines +
+                ", orderLines=" + invoicePositions +
                 '}';
     }
 

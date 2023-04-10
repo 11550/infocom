@@ -20,6 +20,11 @@ public class GoodsService implements IGoodsService {
     }
 
     @Override
+    public List<Goods> create(List<Goods> goods) {
+        return goodsRepository.saveAll(goods);
+    }
+
+    @Override
     public Goods get(Long id) {
         return goodsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No entity found with id " + id));

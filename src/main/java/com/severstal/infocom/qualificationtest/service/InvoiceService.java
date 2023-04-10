@@ -1,7 +1,7 @@
 package com.severstal.infocom.qualificationtest.service;
 
 import com.severstal.infocom.qualificationtest.model.Order;
-import com.severstal.infocom.qualificationtest.repository.OrderRepository;
+import com.severstal.infocom.qualificationtest.repository.InvoiceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,24 +10,29 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService implements IOrderService {
-    private final OrderRepository orderRepository;
+public class InvoiceService implements IInvoiceService {
+    private final InvoiceRepository invoiceRepository;
 
     @Override
     @Transactional
     public Order create(Order order) {
-        return orderRepository.save(order);
+        return invoiceRepository.save(order);
+    }
+
+    @Override
+    public List<Order> create(List<Order> orders) {
+        return invoiceRepository.saveAll(orders);
     }
 
     @Override
     public Order get(Long id) {
-        return orderRepository.findById(id)
+        return invoiceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No entity found with id " + id));
     }
 
     @Override
     public List<Order> getAll() {
-        return orderRepository.findAll();
+        return invoiceRepository.findAll();
     }
 
     @Override
@@ -37,17 +42,17 @@ public class OrderService implements IOrderService {
 
     @Override
     public void delete(Order order) {
-        orderRepository.delete(order);
+        invoiceRepository.delete(order);
     }
 
     @Override
     public void delete(Long id) {
-        orderRepository.deleteById(id);
+        invoiceRepository.deleteById(id);
     }
 
     @Override
     public void deleteAll(List<Long> ids) {
-        orderRepository.deleteAllById(ids);
+        invoiceRepository.deleteAllById(ids);
     }
 
 }

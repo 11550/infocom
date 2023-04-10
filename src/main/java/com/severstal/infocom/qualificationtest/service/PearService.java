@@ -5,6 +5,7 @@ import com.severstal.infocom.qualificationtest.repository.PearRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -15,6 +16,12 @@ public class PearService implements IFruitService<Pear> {
     @Override
     public Pear create(Pear Pear) {
         return pearRepository.save(Pear);
+    }
+
+    @Override
+    @Transactional
+    public List<Pear> create(List<Pear> pears) {
+        return pearRepository.saveAll(pears);
     }
 
     @Override

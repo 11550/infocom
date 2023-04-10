@@ -21,14 +21,41 @@ public class Supplier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "apple_id")
+//    @OneToMany(mappedBy = "supplier",
+//            orphanRemoval = true,
+//            fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Apple> apples;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "pear_id")
+//    @OneToMany(mappedBy = "supplier",
+//            orphanRemoval = true,
+//            fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Pear> pears;
 
+//    public void addApple(Apple apple) {
+//        apples.add(apple);
+//        apple.setSupplier(this);
+//    }
+//
+//    public void removeApple(Apple apple) {
+//        apples.remove(apple);
+//        apple.setSupplier(null);
+//    }
+//
+//    public void addPear(Pear pear) {
+//        pears.add(pear);
+//        pear.setSupplier(this);
+//    }
+//
+//    public void removePear(Pear pear) {
+//        pears.remove(pear);
+//        pear.setSupplier(null);
+//    }
+
+    //<editor-fold desc="static" defaultstate="collapsed">
     public static Supplier create() {
         return new Supplier();
     }
@@ -38,6 +65,16 @@ public class Supplier {
                 .mapToObj(i -> Supplier.create())
                 .collect(Collectors.toList());
     }
+    //</editor-fold>
+
+    //<editor-fold desc="constructors" defaultstate="collapsed">
+
+    public Supplier(List<Apple> apples, List<Pear> pears) {
+        this.apples = apples;
+        this.pears = pears;
+    }
+
+    //</editor-fold>
 
     //<editor-fold desc="equals, hashcode, toString" defaultstate="collapsed">
     @Override

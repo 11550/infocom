@@ -5,6 +5,8 @@ import java.util.List;
 public interface ICrudService<T> {
     T create(T t);
 
+    List<T> create(List<T> tList);
+
     T get(Long id);
 
     List<T> getAll();

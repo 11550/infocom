@@ -1,8 +1,9 @@
 package com.severstal.infocom.qualificationtest.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,6 +13,8 @@ import java.util.Objects;
 @Table(name = "period")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Period {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +32,10 @@ public class Period {
         this.start = start;
         this.end = end;
     }
+
+    //<editor-fold desc="constructors" defaultstate="collapsed">
+
+    //</editor-fold>
 
     //<editor-fold desc="equals, hashcode, toString" defaultstate="collapsed">
 

@@ -1,44 +1,43 @@
 package com.severstal.infocom.qualificationtest.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "goods")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Goods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-//    @ManyToOne(cascade = {CascadeType.ALL})
     private Supplier supplier;
 
     @ManyToOne
-//    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "period_id", referencedColumnName = "id")
     private Period period;
 
     @ManyToOne
-//    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "fruit_id", referencedColumnName = "id")
     private Fruit fruit;
 
     private Double price;
 
+    //<editor-fold desc="constructors" defaultstate="collapsed">
     public Goods(Supplier supplier, Period period, Fruit fruit, Double price) {
         this.supplier = supplier;
         this.period = period;
         this.fruit = fruit;
         this.price = price;
     }
+    //</editor-fold>
 
     //<editor-fold desc="equals, hashcode, toString" defaultstate="collapsed">
     @Override

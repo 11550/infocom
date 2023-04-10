@@ -16,8 +16,8 @@ public class InitService {
     private final IFruitService<Apple> appleService;
     private final IFruitService<Pear> pearService;
     private final IGoodsService goodsService;
-    private final IOrderLineService orderLineService;
-    private final IOrderService orderService;
+    private final IInvoicePositionService orderLineService;
+    private final IInvoiceService orderService;
     private final IPeriodService periodService;
     private final ISupplierService supplierService;
 
@@ -27,40 +27,27 @@ public class InitService {
         Period period = periodService.create(
                 new Period(new Date(), new Date(new Date().getTime() + 1000 * 3600 * 24 * 7 * 4L))
         );
-        init(period);
-        init(period);
-        init(period);
+        init(period, "first");
+        init(period, "second");
+        init(period, "third");
     }
 
     @Transactional
-    public void init(Period period) {
-
-        Supplier supplier = supplierService.create(Supplier.create());
-        Apple apple = appleService.create(new Apple());
-        Apple apple1 = appleService.create(new Apple());
-
-        Pear pear = pearService.create(new Pear());
-        Pear pear1 = pearService.create(new Pear());
-
-        supplier.setApples(new ArrayList<Apple>() {{
-            add(apple);
-            add(apple1);
-        }});
-        supplier.setPears(new ArrayList<Pear>() {{
-            add(pear);
-            add(pear1);
-        }});
+    public void init(Period period, String prefix) {
+        List<Apple> apples = appleService.create(Apple.create(prefix, 2));
+        List<Pear> pears = pearService.create(Pear.create(prefix, 2));
+        Supplier supplier = supplierService.create(new Supplier(apples, pears));
 
         Random random = new Random();
-        Set<OrderLine> orderLines = Stream.of(supplier.getApples(), supplier.getPears())
+        Set<InvoicePosition> invoicePositions = Stream.of(supplier.getApples(), supplier.getPears())
                 .flatMap(Collection::stream)
                 .map(fruit -> {
-                    Goods goods = goodsService.create(new Goods(supplier, period, fruit, random.nextDouble()));
-                    return orderLineService.create(new OrderLine(goods, random.nextDouble()));
+                    Goods goods = goodsService.create(new Goods(supplier, period, fruit, random.nextDouble() * 100));
+                    return orderLineService.create(new InvoicePosition(goods, random.nextDouble() * 10));
                 })
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
-        Order order = orderService.create(new Order(orderLines));
+        Order order = orderService.create(new Order(invoicePositions));
         System.out.println(order);
     }
 }
