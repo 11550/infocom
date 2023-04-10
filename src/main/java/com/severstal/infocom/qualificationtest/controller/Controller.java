@@ -82,14 +82,6 @@ public class Controller {
         return ResponseEntity.ok(invoicePositionService.getAll());
     }
 
-    @GetMapping("/invoice-position/all")
-    public ResponseEntity<List<InvoicePosition>> getAllInvoicePositions(
-            @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date from,
-            @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date to) {
-
-        return ResponseEntity.ok(invoicePositionService.getAllByDateBetween(from, to));
-    }
-
     @GetMapping("/order/{id}")
     public ResponseEntity<Invoice> getOrder(@PathVariable(name = "id") Invoice invoice) {
         return ResponseEntity.ok(invoice);

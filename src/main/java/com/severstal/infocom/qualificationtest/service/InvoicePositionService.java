@@ -37,11 +37,6 @@ public class InvoicePositionService implements IInvoicePositionService {
     }
 
     @Override
-    public List<InvoicePosition> getAllByDateBetween(Date from, Date to) {
-        return invoicePositionRepository.findAllByDateBetween(from, to);
-    }
-
-    @Override
     public InvoicePosition update(InvoicePosition invoicePosition) {
         return create(invoicePosition);
     }
